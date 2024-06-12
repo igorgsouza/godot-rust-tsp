@@ -1,0 +1,182 @@
+[gd_scene load_steps=6 format=3 uid="uid://dntid8bjsjfrf"]
+
+[ext_resource type="Script" path="res://TravellingSalesmanSolver.gd" id="1_l055b"]
+[ext_resource type="PackedScene" uid="uid://cesqfv7xowt4u" path="res://slider_button.tscn" id="2_hda7f"]
+[ext_resource type="PackedScene" uid="uid://dl2jsq6py4ak8" path="res://slider_value.tscn" id="3_20rbp"]
+[ext_resource type="Script" path="res://PointManager.gd" id="3_rt8nf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w8pju"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.180392, 0.180392, 0.180392, 1)
+
+[node name="TravellingSalesmanSolver" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_l055b")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 240.0
+offset_bottom = 632.0
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+alignment = 1
+item_count = 3
+selected = 0
+popup/item_0/text = "Ant Colony"
+popup/item_0/id = 1
+popup/item_1/text = "Genetic"
+popup/item_1/id = 0
+popup/item_2/text = "Permutation"
+popup/item_2/id = 2
+
+[node name="Run" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+text = "Run"
+
+[node name="Clear" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+text = "Clear"
+
+[node name="Generate" parent="VBoxContainer" instance=ExtResource("2_hda7f")]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+text = "Rand Points"
+min = 3
+
+[node name="ReplayTime" parent="VBoxContainer" instance=ExtResource("3_20rbp")]
+layout_mode = 2
+text = "Replay (seconds): "
+max = 60.0
+default = 5.0
+
+[node name="MaxIter" parent="VBoxContainer" instance=ExtResource("3_20rbp")]
+layout_mode = 2
+text = "Max Iter: "
+min = 50.0
+max = 10000.0
+default = 1000.0
+step = 50.0
+
+[node name="Alpha" parent="VBoxContainer" instance=ExtResource("3_20rbp")]
+layout_mode = 2
+text = "Alpha: "
+max = 2.0
+default = 1.0
+step = 0.1
+
+[node name="Beta" parent="VBoxContainer" instance=ExtResource("3_20rbp")]
+layout_mode = 2
+text = "Beta: "
+max = 2.0
+default = 1.0
+step = 0.1
+
+[node name="PheromonePower" parent="VBoxContainer" instance=ExtResource("3_20rbp")]
+layout_mode = 2
+text = "Power: "
+min = 1.0
+max = 10.0
+default = 5.0
+step = 0.5
+
+[node name="AntQuantity" parent="VBoxContainer" instance=ExtResource("3_20rbp")]
+layout_mode = 2
+text = "Ant Count: "
+min = 1.0
+max = 32.0
+default = 16.0
+
+[node name="Evaporation" parent="VBoxContainer" instance=ExtResource("3_20rbp")]
+layout_mode = 2
+text = "Evaporation: "
+min = 0.1
+max = 0.9
+default = 0.5
+step = 0.1
+
+[node name="Mutation" parent="VBoxContainer" instance=ExtResource("3_20rbp")]
+layout_mode = 2
+text = "Mutation: "
+max = 1.0
+default = 0.5
+step = 0.1
+
+[node name="PoolSize" parent="VBoxContainer" instance=ExtResource("3_20rbp")]
+layout_mode = 2
+text = "Pool: "
+min = 1.0
+default = 50.0
+
+[node name="MaxTime" parent="VBoxContainer" instance=ExtResource("3_20rbp")]
+layout_mode = 2
+text = "Max Time (seconds): "
+min = 1.0
+max = 60.0
+default = 5.0
+
+[node name="PointManager" type="Control" parent="."]
+z_index = 20
+layout_mode = 1
+anchor_left = 0.236
+anchor_top = 0.025
+anchor_right = 0.986
+anchor_bottom = 0.975
+offset_left = 0.127991
+offset_top = -0.200001
+offset_right = 0.12793
+offset_bottom = 0.200012
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_rt8nf")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.236
+anchor_top = 0.025
+anchor_right = 0.986
+anchor_bottom = 0.975
+offset_left = 0.127991
+offset_top = -0.200001
+offset_right = 0.12793
+offset_bottom = 0.200012
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_w8pju")
+
+[node name="Best" type="Label" parent="."]
+z_index = 50
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.778
+anchor_top = 0.037
+anchor_right = 0.944
+anchor_bottom = 0.111
+offset_left = -0.256042
+offset_top = 0.0240002
+offset_right = 0.511963
+offset_bottom = 0.071991
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 30
+text = "Best: inf"
+
+[connection signal="item_selected" from="VBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
+[connection signal="button_up" from="VBoxContainer/Run" to="." method="_on_run_button_button_up"]
+[connection signal="button_up" from="VBoxContainer/Clear" to="." method="_on_button_clear_button_up"]
+[connection signal="button_up" from="VBoxContainer/Generate" to="." method="_on_generate_button_button_up"]

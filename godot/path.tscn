@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://cnrwtgqbdbqg0"]
+
+[ext_resource type="Script" path="res://Path.gd" id="1_jd7mp"]
+
+[node name="Path" type="Control" node_paths=PackedStringArray("line")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+script = ExtResource("1_jd7mp")
+line = NodePath("Line2D")
+
+[node name="Line2D" type="Line2D" parent="."]
+closed = true
+width = 4.0

@@ -1,0 +1,52 @@
+[gd_scene load_steps=2 format=3 uid="uid://cesqfv7xowt4u"]
+
+[ext_resource type="Script" path="res://SliderButton.gd" id="1_w4gx3"]
+
+[node name="SliderButton" type="Control"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_w4gx3")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.472
+anchor_bottom = 1.0
+offset_right = 0.255981
+grow_horizontal = 2
+grow_vertical = 2
+text = "button"
+
+[node name="HSlider" type="HSlider" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.528
+anchor_top = 0.296
+anchor_right = 0.972
+anchor_bottom = 1.0
+offset_left = -0.255981
+offset_top = 0.192001
+offset_right = 0.255981
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.528
+anchor_right = 0.972
+anchor_bottom = 0.295
+offset_left = -0.255981
+offset_right = 0.255981
+offset_bottom = -0.160004
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="button_up" from="Button" to="." method="_on_button_button_up"]
+[connection signal="value_changed" from="HSlider" to="." method="_on_h_slider_value_changed"]
