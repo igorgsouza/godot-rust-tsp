@@ -36,7 +36,7 @@ impl Info {
     }
 
     pub fn evaluate_vector(&self, path: &Vec<usize>) -> f64 {
-        let mut result = path
+        let mut result: f64 = path
             .windows(2)
             .map(|i| {
                 self.points[i[0]]
@@ -47,7 +47,7 @@ impl Info {
         result += self.points[0]
             .calculate_distance(self.points.last().unwrap())
             .unwrap();
-        result
+        -1.0 * result
     }
 
     pub fn best_of_matrix<'a>(&self, path_matrix: &'a Vec<Matrix>) -> (&'a Matrix, f64) {

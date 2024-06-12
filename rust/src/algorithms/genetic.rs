@@ -89,7 +89,7 @@ pub fn execute(points: Vec<Point>, config: GeneticConfiguration) -> Vec<(Vec<usi
 
         let best = info.best_of_gene(&gene_pool);
 
-        output.push((best.data.clone(), best.eval));
+        output.push((best.data.clone(), -best.eval));
 
         let total: f64 = gene_pool.iter().map(|gene| gene.eval).sum();
 

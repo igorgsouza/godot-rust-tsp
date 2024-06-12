@@ -23,17 +23,17 @@ pub struct Ant<'a> {
 
 fn update_pheromones(
     pheromones: &Matrix,
-    best: &(&Matrix, f64),
+    info: &Info,
     paths: &Vec<Matrix>,
     config: &AntColonyConfiguration,
 ) -> Matrix {
     let mut path_weight: Matrix = Matrix::zeroes(config.path_size);
-    let best_path: Matrix = best.0.mirror();
 
     for mat in paths {
-        path_weight = path_weight + best_path.dot(&mat.mirror());
+        path_weight =
+            path_weight + (&mat.mirror() * (config.pheromone_power / info.evaluate_matrix(&mat)));
     }
-    path_weight * config.pheromone_power / best.1 + (pheromones * (1.0 - config.evaporation))
+    path_weight + (pheromones * (1.0 - config.evaporation))
 }
 
 impl<'a> Ant<'a> {
@@ -113,7 +113,7 @@ pub fn execute(points: Vec<Point>, config: AntColonyConfiguration) -> Vec<(Matri
             result_vector.push(ant.explore())
         }
         let best: (&Matrix, f64) = info.best_of_matrix(&result_vector);
-        pheromones_matrix = update_pheromones(&pheromones_matrix, &best, &result_vector, &config);
+        pheromones_matrix = update_pheromones(&pheromones_matrix, &info, &result_vector, &config);
 
         output.push((best.0.clone(), best.1))
     }

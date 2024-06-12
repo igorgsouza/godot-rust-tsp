@@ -42,11 +42,18 @@ var options : OptionButton = $VBoxContainer/OptionButton
 var replay_time : SliderValue = $VBoxContainer/ReplayTime
 @onready
 var best_label : Label = $Best
+@onready
+var best_iter : Label = $Iter
+@onready
+var best_time : Label = $Time
+var iter : int = 0
+
 
 func _ready() -> void:
 	_on_option_button_item_selected(0)
 
 func _on_run_button_button_up() -> void:
+	iter = 0
 	if _best_path != null:
 		_best_path.modulate = Color.INDIAN_RED
 	_points = ($PointManager as PointManager).get_point_coordinates()
@@ -78,6 +85,7 @@ func _on_run_button_button_up() -> void:
 				"max_time": int(($VBoxContainer/MaxTime as SliderValue).get_value()*1000),
 			})
 	_real_simulation_time = (Time.get_ticks_msec()-time_start)/1000.0
+	best_time.text = "Time: %.2f" % _real_simulation_time
 	
 	var simulation_time : float = replay_time.get_value() / (results.size())
 	if simulation_time == 0:
@@ -102,6 +110,7 @@ func _on_run_button_button_up() -> void:
 		_best_path.modulate = Color.LAWN_GREEN
 	
 func show_path(arr : Dictionary, evap_time : float) -> void:
+	iter += 1
 	var new_path : Path = _path_scene.instantiate()
 	add_child(new_path)
 	new_path.create_path(_points, arr["path"])
@@ -116,6 +125,7 @@ func show_path(arr : Dictionary, evap_time : float) -> void:
 			_best_path.queue_free()
 		_best_path = _path_scene.instantiate() as Path
 		add_child(_best_path)
+		best_iter.text = "Iter: %d" % iter
 		_best_path.create_path(_points, arr["path"])
 		_best_path.modulate = Color.INDIAN_RED
 		_best_path.modulate.a = 0.5
@@ -132,7 +142,10 @@ func _on_button_clear_button_up() -> void:
 	if _current_path != null:
 		_current_path.queue_free()
 	_best_eval = INF
+	iter = 0
 	best_label.text = "Best: %.2f" % INF
+	best_time.text = "Time: %.2f" % INF
+	best_iter.text = "Iter: %d" % 0
 	_points.clear()
 	if _is_simulating:
 		_is_simulating = false
